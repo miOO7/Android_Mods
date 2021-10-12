@@ -4223,9 +4223,9 @@ case "$target" in
 
 	# Setting b.L scheduler parameters
 	echo 95 > /proc/sys/kernel/sched_upmigrate
-	echo 85 > /proc/sys/kernel/sched_downmigrate
-	echo 100 > /proc/sys/kernel/sched_group_upmigrate
-	echo 95 > /proc/sys/kernel/sched_group_downmigrate
+	echo 80 > /proc/sys/kernel/sched_downmigrate
+	echo 95 > /proc/sys/kernel/sched_group_upmigrate
+	echo 80 > /proc/sys/kernel/sched_group_downmigrate
 	echo 1 > /proc/sys/kernel/sched_walt_rotate_big_tasks
 
 	# configure governor settings for little cluster
@@ -4240,10 +4240,10 @@ case "$target" in
 	echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/rate_limit_us
 	echo 1574400 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/hispeed_freq
 	echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/pl
-	echo "0:1324800" > /sys/module/cpu_boost/parameters/input_boost_freq
+	echo "0:748000 1:0 2:0 3:0 4:1766200 5:0 6:0 7:0" > /sys/module/cpu_boost/parameters/input_boost_freq
 	echo 120 > /sys/module/cpu_boost/parameters/input_boost_ms
-	echo "0:0 1:0 2:0 3:0 4:2323200 5:0 6:0 7:0" > /sys/module/cpu_boost/parameters/powerkey_input_boost_freq
-	echo 400 > /sys/module/cpu_boost/parameters/powerkey_input_boost_ms
+	#echo "0:0 1:0 2:0 3:0 4:2323200 5:0 6:0 7:0" > /sys/module/cpu_boost/parameters/powerkey_input_boost_freq
+	#echo 400 > /sys/module/cpu_boost/parameters/powerkey_input_boost_ms
 	# Limit the min frequency to 825MHz
 	echo 825000 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 
@@ -4312,7 +4312,7 @@ case "$target" in
         echo 0-2 > /dev/cpuset/background/cpus
         echo 0-3 > /dev/cpuset/system-background/cpus
         echo 4-7 > /dev/cpuset/foreground/boost/cpus
-        echo 0-2,4-7 > /dev/cpuset/foreground/cpus
+        echo 0-2,5-7 > /dev/cpuset/foreground/cpus
         echo 0-7 > /dev/cpuset/top-app/cpus
 
 	# Turn off scheduler boost at the end
@@ -4333,8 +4333,8 @@ case "$target" in
 	echo N > /sys/module/lpm_levels/L3/l3-dyn-ret/idle_enabled
         # Turn on sleep modes.
         echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
-	echo 100 > /proc/sys/vm/swappiness
-	echo 120 > /proc/sys/vm/watermark_scale_factor
+	echo 60 > /proc/sys/vm/swappiness
+	echo 240 > /proc/sys/vm/watermark_scale_factor
 
 	# set lmk minfree for MemTotal greater than 6G
 	arch_type=`uname -m`
